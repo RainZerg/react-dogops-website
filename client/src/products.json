@@ -1,0 +1,51 @@
+[
+    {
+      "id": 1,
+      "name": "Red dog collar",
+      "image": "https://storage.googleapis.com/a1aa/image/YZUcjk7fWQRcB6CEAx6f9O9sbkx1oBvXqczknT4xdIDGxb4TA.jpg",
+      "price": 20000,
+      "description": "Stylish and durable red dog collar for all sizes.",
+      "category": "collars"
+    },
+    {
+      "id": 2,
+      "name": "White dog collar",
+      "image": "https://storage.googleapis.com/a1aa/image/vWra9VY13eVZHqm22c1xhbeDsjJucZMHXubuqUG0XVjAxb4TA.jpg",
+      "price": 1200,
+      "description": "Stylish and durable red dog collar for all sizes.",
+      "category": "collars"
+    },
+    {
+      "id": 3,
+      "name": "Black dog collar",
+      "image": "https://storage.googleapis.com/a1aa/image/5Uh21EkDfOxelUmWGTqO5aWNzQghOirHSke06LccumjfDvhPB.jpg",
+      "price": 1200,
+      "description": "Stylish and durable red dog collar for all sizes.",
+      "category": "collars"
+    },
+    {
+      "id": 4,
+      "name": "Blue dog collar",
+      "image": "https://storage.googleapis.com/a1aa/image/wzsgS6FfsyTCJiJbNIQ4p0jIGIpwCPpi1fls5olhI8pDxb4TA.jpg",
+      "price": 1200,
+      "description": "Stylish and durable red dog collar for all sizes.",
+      "category": "collars"
+    },
+    {
+      "id": 5, 
+      "name": "Mono Red",
+      "image": "https://storage.googleapis.com/a1aa/image/ne9MVtPSU5QJMqnuIIagifI8HtmbqUHzwlGS2T3hkJVFxb4TA.jpg",
+      "price": 105,
+      "description": "Long leash with rubber band",
+      "category": "leashes"
+    },
+    {
+      "id": 6,
+      "name": "Mono Blue",
+      "image": "https://storage.googleapis.com/a1aa/image/SfBzpHw85k0yP6smfFYXc5cl2ogcYAeohL71LEfz7ukKEvhPB.jpg",
+      "price": 75,
+      "description": "Long leash with rubber band",
+      "category": "leashes"
+    }
+]
+
