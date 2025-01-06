@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import {Button} from "@nextui-org/react";
 
 const images = [
-  'https://via.placeholder.com/1600x900/FF0000/FFFFFF?text=Image+1',
-  'https://via.placeholder.com/1600x900/00FF00/FFFFFF?text=Image+2',
-  'https://via.placeholder.com/1600x900/0000FF/FFFFFF?text=Image+3'
+  'https://fakeimg.pl/1600x900/5c5c5c/909090?text=+',
+  'https://fakeimg.pl/1600x900/570000/909090?text=+',
+  'https://fakeimg.pl/1600x900/000d57/909090?text=+'
 ];
 
 const Slider = () => {
@@ -26,7 +27,8 @@ const Slider = () => {
       />
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
         <h1 className="text-4xl md:text-6xl font-bold">Fixed Overlay Text</h1>
-        <p className="text-lg md:text-2xl mt-4">This text is fixed over the images.</p>
+        <p className="text-lg md:text-2xl mt-4 pb-9">This text is fixed over the images.</p>
+        <Button className="text-white hover:text-black" size="lg" color="default" variant="ghost">Press me</Button>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import Home from './components/pages/Home.jsx'
 import About from './components/pages/About.jsx'
 import Contacts from './components/pages/Contacts.jsx'
 import { useState } from 'react'
+import {NextUIProvider} from "@nextui-org/react"
 
 function App() {
   const [currentPage, setCurrentPage] = useState('');
@@ -17,9 +18,10 @@ function App() {
   };
 
   return (
+    <NextUIProvider>
     <div className='bg-black text-white flex flex-col min-h-screen'> 
         <Header onData={handleCallback} />
-        <main className='flex grow bg-stone-100 text-black p-16 overflow-auto'>
+        <main className='flex justify-center grow bg-stone-100 text-black p-16 overflow-auto'>
           {currentPage === '#' && <Home />}
           {currentPage === '/about' && <About />}
           {currentPage === '/catalog' && <Catalog />}
@@ -27,6 +29,7 @@ function App() {
         </main>
         <Footer />
     </div>
+    </NextUIProvider>
   )
 }
 

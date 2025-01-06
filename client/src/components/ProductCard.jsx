@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 const ProductCard = ({ product }) => {
     if (!product) return null;
 
@@ -33,15 +31,6 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
-ProductCard.propTypes = {
-    product: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        description: PropTypes.string.isRequired,
-    }).isRequired,
-};
 
 
 

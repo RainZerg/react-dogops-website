@@ -3,7 +3,7 @@ import Slider from '../utils/Slider.jsx';
 
 function Home() {
   return (
-    <div>
+    <div className="flex justify-center">
       <Slider />
     </div>
   );
