@@ -1,5 +1,4 @@
 import './assets/styles/App.css'
-
 import Catalog from './components/pages/Catalog.jsx'
 import Footer from './components/common/Footer.jsx'
 import Header from './components/common/Header.jsx'
@@ -19,16 +18,16 @@ function App() {
 
   return (
     <NextUIProvider>
-    <div className='bg-black text-white flex flex-col min-h-screen'> 
+    <main className='dark bg-black text-white flex flex-col min-h-screen'> 
         <Header onData={handleCallback} />
-        <main className='flex justify-center grow bg-stone-100 text-black p-16 overflow-auto'>
+        <div className='grow bg-stone-100 text-black p-16 overflow-auto'>
           {currentPage === '#' && <Home />}
           {currentPage === '/about' && <About />}
           {currentPage === '/catalog' && <Catalog />}
           {currentPage === '/contacts' && <Contacts />}
-        </main>
+        </div>
         <Footer />
-    </div>
+    </main>
     </NextUIProvider>
   )
 }

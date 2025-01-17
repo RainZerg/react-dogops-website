@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Link, Button, NavbarMenu } from "@nextui-org/react";
 
 const initialNavigation = [
   { name: 'Главная', href: '#', current: true },
@@ -15,6 +15,7 @@ export const DogopsLogo = () => {
 };
 
 export default function Header({ onData }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [navigation, setNavigation] = useState(initialNavigation);
 
   useEffect(() => {
@@ -48,10 +49,14 @@ export default function Header({ onData }) {
 
   return (
     <Navbar className="bg-black">
+      <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        className="sm:hidden"
+        />
       <NavbarBrand>
         <DogopsLogo />
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+
+      <NavbarContent className="hidden sm:flex gap-4 justify-center">
         {navigation.map((item) => (
           <NavbarItem key={item.name} isActive={item.current}>
             <Link 
@@ -74,6 +79,22 @@ export default function Header({ onData }) {
           </Button>
         </NavbarItem>
       </NavbarContent>
+      <NavbarMenu className="gap-4">
+        {navigation.map((item, index) => (
+          <NavbarItem key={index} isActive={item.current}>
+            <Link 
+              className={`text-black text-xl ${item.current ? 'bg-lime-300 text-black rounded-full px-4 py-2' : 'hover:underline'}`}
+              href={item.href} 
+              onClick={(e) => {
+          e.preventDefault();
+          handleClick(item);
+              }}
+            >
+              {item.name}
+            </Link>
+          </NavbarItem>
+        ))}
+      </NavbarMenu>
     </Navbar>
   );
 }

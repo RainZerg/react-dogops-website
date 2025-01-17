@@ -15,6 +15,9 @@ await server.register(FastifyVite, {
   root: import.meta.url,
   dev: process.argv.includes("--dev"),
   spa: true,
+  middlewareMode: true,
+  base: "/",
+  appPath: './client',
 });
 
 server.get("/api/products", async (request, reply) => {

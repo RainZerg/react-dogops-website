@@ -28,7 +28,7 @@ const Slider = () => {
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
         <h1 className="text-4xl md:text-6xl font-bold">Fixed Overlay Text</h1>
         <p className="text-lg md:text-2xl mt-4 pb-9">This text is fixed over the images.</p>
-        <Button className="text-white hover:text-black" size="lg" color="default" variant="ghost">Press me</Button>
+        <Button size="lg" color="primary" variant="ghost">Press me</Button>
       </div>
     </div>
   );
