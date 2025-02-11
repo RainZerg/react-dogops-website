@@ -1,97 +1,68 @@
-import { useState, useEffect } from 'react';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Link, Button, NavbarMenu } from "@nextui-org/react";
+import { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Button, NavbarMenu } from "@nextui-org/react";
+import logo from '@assets/images/dogops-logo.png';
+import UserDropdown from './Dropdown/UserDropdown';
 
-const initialNavigation = [
-  { name: 'Главная', href: '#', current: true },
-  { name: 'О нас', href: '/about', current: false },
-  { name: 'Каталог', href: '/catalog', current: false },
-  { name: 'Контакты', href: '/contacts', current: false },
+const navigation = [
+  { name: 'Главная', path: '/' },
+  { name: 'О нас', path: '/about' },
+  { name: 'Каталог', path: '/catalog' },
+  { name: 'Контакты', path: '/contacts' },
 ];
-
+{/*Exporting logo as a component*/}
 export const DogopsLogo = () => {
   return (
-    <img src='../../src/assets/dogops-logo.png' alt="Dogops logo" width="50"/>
+    <img src={logo} alt="Dogops logo" width="50"/>
   );
 };
 
-export default function Header({ onData }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [navigation, setNavigation] = useState(initialNavigation);
-
-  useEffect(() => {
-    const currentPage = localStorage.getItem('currentPage');
-    if (currentPage) {
-      const updatedNavigation = navigation.map(item => ({
-        ...item,
-        current: item.href === currentPage
-      }));
-      setNavigation(updatedNavigation);
-      onData(currentPage);
-    } else {
-      const defaultPage = '#';
-      const updatedNavigation = navigation.map(item => ({
-        ...item,
-        current: item.href === defaultPage
-      }));
-      setNavigation(updatedNavigation);
-      onData(defaultPage);
-    }
-  }, []);
-
-  const handleClick = (clickedItem) => {
-    const updatedNavigation = navigation.map(item => ({
-      ...item,
-      current: item.href === clickedItem.href
-    }));
-    setNavigation(updatedNavigation);
-    onData(clickedItem.href);
-  };
+{/*Header component*/}
+export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false); {/*State for menu*/}
+  const location = useLocation(); {/*Location hook for navigation*/}
 
   return (
-    <Navbar className="bg-black">
-      <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+    <Navbar className="absolute">
+      {/*Menu toggle button*/}
+      <NavbarMenuToggle
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         className="sm:hidden"
-        />
+      />
       <NavbarBrand>
         <DogopsLogo />
       </NavbarBrand>
 
       <NavbarContent className="hidden sm:flex gap-4 justify-center">
+        {/*Navigation items*/}
         {navigation.map((item) => (
-          <NavbarItem key={item.name} isActive={item.current}>
-            <Link 
-              className={`text-white ${item.current ? 'bg-lime-300 text-black rounded-full px-4 py-2' : 'hover:underline'}`}
-              href={item.href} 
-              onClick={(e) => {
-                e.preventDefault();
-                handleClick(item);
-              }}
+          <NavbarItem key={item.name} isActive={location.pathname === item.path}>
+            <NavLink 
+              to={item.path}
+              className={({ isActive }) => `${isActive ? 'bg-lime-300 text-black rounded-full px-4 py-2' : 'text-white hover:underline'}`}
             >
               {item.name}
-            </Link>
+            </NavLink>
           </NavbarItem>
         ))}
       </NavbarContent>
+
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} className="bg-lime-300 text-black rounded-full px-4 py-2" href="#" variant="flat">
-            Войти
-          </Button>
+          <UserDropdown />
         </NavbarItem>
       </NavbarContent>
+
       <NavbarMenu className="gap-4">
+        {/*Navigation items for mobile*/}
         {navigation.map((item, index) => (
-          <NavbarItem key={index} isActive={item.current}>
-            <Link 
-              className={`text-black text-xl ${item.current ? 'bg-lime-300 text-black rounded-full px-4 py-2' : 'hover:underline'}`}
-              href={item.href} 
-              onClick={(e) => {
-          e.preventDefault();
-          handleClick(item);
-              }}
+          <NavbarItem key={index} isActive={location.pathname === item.path}>
+            <NavLink 
+              to={item.path}
+              className={({ isActive }) => `text-black text-xl ${isActive ? 'bg-lime-300 text-black rounded-full px-4 py-2' : 'hover:underline'}`}
             >
               {item.name}
-            </Link>
+            </NavLink>
           </NavbarItem>
         ))}
       </NavbarMenu>
