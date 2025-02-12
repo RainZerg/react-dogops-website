@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import ProductCard from './ProductCard';
+import ProductCard from '../ProductCard';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
