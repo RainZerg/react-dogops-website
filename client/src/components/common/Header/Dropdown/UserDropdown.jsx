@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
     Dropdown, 
     DropdownTrigger, 
@@ -10,99 +10,104 @@ import { useNavigate } from 'react-router-dom';
 import { Avatar } from "@nextui-org/react";
 import { useAuthStore } from '@/hooks/authStore';
 import axios from 'axios';
+import axiosInstance from '@/services/axiosInstance.ts'; 
+import preloadImage from './helpers/preloadImage.js'; // Функция для предварительной загрузки изображения
 
 const UserDropdown = () => {
-    // Get auth state and profile picture from Zustand store
+    // Получаем состояние аутентификации и методы из хранилища Zustand
     const { token, clearToken, profilePicture, setProfilePicture } = useAuthStore();
     const navigate = useNavigate();
+    // Состояние для отслеживания загрузки изображения
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-    // Handle logout functionality
+    // Обработчик выхода из системы
     const handleLogout = async () => {
         try {
+            // Отправляем запрос на выход
             await axios.delete('/api/users/logout', {
                 withCredentials: true
             });
-
+            // Очищаем токен в хранилище
             clearToken();
-
         } catch (error) {
-            console.error('Logout failed:', error);
+            console.error('Ошибка выхода:', error);
         }
-        navigate('/home');
+        // Перенаправляем на главную страницу
+        navigate('/');
     };
 
+    // Получение и предзагрузка изображения профиля
+    const retrievePicture = async () => {
+        try {
+            // Запрос на получение URL изображения профиля
+            const response = await axiosInstance.get('/api/users/profilepicture', {
+                skipAuthRedirect: true, // Пропускаем автоматическое перенаправление при 401
+            });
+
+            const url = response.data.profilePicture;
+            // Предзагрузка изображения перед обновлением состояния
+            await preloadImage(url);
+            // Обновляем URL в хранилище
+            setProfilePicture(url);
+        } catch (error) {
+            console.error('Ошибка загрузки изображения:', error);
+        }
+    };
+
+    // Эффект для загрузки данных при изменении токена
     useEffect(() => {
-        const retrievePicture = async () => {
-            try {
-                const response =  await axios.get('/api/users/profilepicture', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                setProfilePicture(response.data.profilePicture);
-            } catch (error) {
-                console.error('Picture retrieval failed:', error);
-            }
-        };
+        let isMounted = true; // Флаг для проверки монтирования компонента
 
         if (token) {
-            retrievePicture();
+            retrievePicture().then(() => {
+                // Обновляем состояние только если компонент смонтирован
+                if (isMounted) setIsImageLoaded(true);
+            });
         }
-    }, [token, setProfilePicture]);
 
-    const preloadImage = (url) => {
-        new Image().src = url;
-    };
-
-    useEffect(() => {
-        profilePicture && preloadImage(profilePicture);
-    }, [profilePicture])
+        // Очистка эффекта: сбрасываем флаг при размонтировании
+        return () => {
+            isMounted = false;
+        };
+    }, [token]); // Зависимость от токена
 
     return (
         <Dropdown placement="bottom-end">
             <DropdownTrigger>
                 {token ? (
-                    // Show avatar if logged in (token exists)
+                    // Отображаем аватар для авторизованного пользователя
                     <Avatar
+                        key={profilePicture} // Ключ для принудительного обновления при изменении URL
                         isBordered
                         as="button"
-                        src={profilePicture || '/default-avatar.jpg'} // Replace with actual avatar URL if available
-                        name="User" // Replace with actual username if available
+                        src={profilePicture}
+                        name="User"
                         className="cursor-pointer"
+                        showFallback={!isImageLoaded} // Управление отображением заглушки
                     />
                 ) : (
-                        // Show login button if not authenticated
+                        // Кнопка входа для неавторизованных пользователей
                         <Button 
                             color="primary" 
                             variant="bordered"
                             onClick={() => navigate('/login')}
                         >
-                            Login
+                            Войти
                         </Button>
                     )}
             </DropdownTrigger>
 
-            {/* Show menu only when authenticated */}
+            {/* Выпадающее меню для авторизованного пользователя */}
             {token && (
-                <DropdownMenu aria-label="User actions">
-                    <DropdownItem 
-                        key="profile" 
-                        onClick={() => navigate('/profile')}
-                    >
-                        Profile
+                <DropdownMenu aria-label="Действия пользователя">
+                    <DropdownItem key="profile" onClick={() => navigate('/profile')}>
+                        Профиль
                     </DropdownItem>
-                    <DropdownItem 
-                        key="dashboard" 
-                        onClick={() => navigate('/dashboard')}
-                    >
-                        Dashboard
+                    <DropdownItem key="dashboard" onClick={() => navigate('/dashboard')}>
+                        Заказы
                     </DropdownItem>
-                    <DropdownItem 
-                        key="logout" 
-                        color="danger" 
-                        onClick={handleLogout}
-                    >
-                        Logout
+                    <DropdownItem key="logout" className="text-danger" color="danger" onClick={handleLogout}>
+                        Выйти
                     </DropdownItem>
                 </DropdownMenu>
             )}
