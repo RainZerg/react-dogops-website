@@ -1,4 +1,9 @@
+import {useCartStore} from '@/hooks/cartStore';
+
 const ProductCard = ({ product }) => {
+
+    const {addToCart} = useCartStore();
+
     if (!product) return null;
 
     const { id, image, name, price, description } = product;
@@ -22,7 +27,12 @@ const ProductCard = ({ product }) => {
                 <span className="text-black text-lg font-bold">
                             {price}₽
                 </span>
-                <button className="bg-lime-300 text-black text-sm py-2 px-4 rounded mt-4 w-full">
+                <button onClick={() => addToCart({
+                    id: product.id,
+                    image: product.image,
+                    title: product.name,
+                    price: product.price
+                })} className="bg-lime-300 text-black text-sm py-2 px-4 rounded mt-4 w-full">
                     В корзину
                 </button>
             </div>
