@@ -79,7 +79,10 @@ export async function userRoutes(server: FastifyInstance) {
     });
 
     server.post('/validation', { preHandler: [server.authenticate]}, async (request, reply) => {
-
+        console.log(request)
+if (!request.cookies.Authorization && !request.headers['authorization']) {
+            throw new Error('Unauthorized')
+        }
     })
     
     server.post('/upload', { preHandler: [server.authenticate] }, async (request, reply) => {
