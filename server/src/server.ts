@@ -14,11 +14,11 @@ const server = Fastify();
 server.register(jwt, {
     secret: 'supersecret',
     cookie: {
-        cookieName: 'requestToken',
+        cookieName: 'Authorization',
         signed: true
     },
     sign: {
-        expiresIn: '10m'
+        expiresIn: '1h'
     }
 });
 

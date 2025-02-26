@@ -27,7 +27,6 @@ export async function userRoutes(server: FastifyInstance) {
 
             const hashedPassword = await bcrypt.hash(password, 10);
             try {
-                console.log(hashedPassword);
                 const user = await User.create({ firstName, lastName, email, password: hashedPassword, phone });
                 reply.code(201).send({ user });
             } catch (error) {
@@ -79,12 +78,11 @@ export async function userRoutes(server: FastifyInstance) {
     });
 
     server.post('/validation', { preHandler: [server.authenticate]}, async (request, reply) => {
-        console.log(request)
-if (!request.cookies.Authorization && !request.headers['authorization']) {
+        if (!request.cookies.Authorization && !request.headers['authorization']) {
             throw new Error('Unauthorized')
         }
     })
-    
+
     server.post('/upload', { preHandler: [server.authenticate] }, async (request, reply) => {
         const user = request.user;
         const data = await request.file();
