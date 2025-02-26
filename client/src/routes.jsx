@@ -6,8 +6,8 @@ import About from './components/pages/About';
 import Contacts from './components/pages/Contacts';
 import Login from './components/pages/Login';
 import App from './App.jsx';
-import ProtectedRoutes from './components/common/ProtectedRoutes';
-import Profile from './components/pages/Profile'
+import ProtectedRoutes from './components/pages/ProtectedRoutes';
+import Profile from './components/pages/ProtectedRoutes/Profile'
 
 export const router = createBrowserRouter([
     {
@@ -24,13 +24,18 @@ export const router = createBrowserRouter([
                     {path: 'login', element: <Login />},
                 ],
             },
+        ],
+    },
+    {
+        path: '/',
+        element: <ProtectedRoutes />,
+        children: [
             {
-                element: <ProtectedRoutes />,
-                children: [
-                    {
-                        path: "/profile",
-                        element: <Profile />,
-                    },
-                ],
+                path: "/profile",
+                element: <Profile />,
             },
-        ]}]);
+        ],
+    },
+
+]);
+
