@@ -25,7 +25,7 @@ const Header = () => {
     const location = useLocation(); {/*Location hook for navigation*/}
 
     return (
-        <Navbar className="fixed">
+        <Navbar className="sticky top-0">
             {/*Menu toggle button*/}
             <NavbarMenuToggle
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
